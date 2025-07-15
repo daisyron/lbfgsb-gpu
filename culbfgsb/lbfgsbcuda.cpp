@@ -202,7 +202,7 @@ void lbfgsbminimize(const int& n, const LBFGSB_CUDA_STATE<real>& state,
   nfgv = 1;
   lbfgsbprojgr<real>(n, l, u, nbd, x, g, buf_n_r, sbgnrm_h, sbgnrm_d,
                      option.machine_maximum, NULL);
-  cutilSafeCall(cudaThreadSynchronize());
+  cutilSafeCall(cudaDeviceSynchronize());
   sbgnrm = *sbgnrm_h;
   summary.residual_g = sbgnrm;
   if (sbgnrm <= option.eps_g) {
@@ -774,28 +774,28 @@ void lbfgsbdcsrch(const real& f, const real& g, real& stp, const real& ftol,
                   const real& gtol, const real& xtol, const real& stpmin,
                   const real& stpmax, const real& stpscaling, int& task,
                   int* isave, real* dsave) {
-  register bool brackt;
-  register int stage;
-  register real finit;
-  register real ftest;
-  register real fm;
-  register real fx;
-  register real fxm;
-  register real fy;
-  register real fym;
-  register real ginit;
-  register real gtest;
-  register real gm;
-  register real gx;
-  register real gxm;
-  register real gy;
-  register real gym;
-  register real stx;
-  register real sty;
-  register real stmin;
-  register real stmax;
-  register real width;
-  register real width1;
+  bool brackt;
+  int stage;
+  real finit;
+  real ftest;
+  real fm;
+  real fx;
+  real fxm;
+  real fy;
+  real fym;
+  real ginit;
+  real gtest;
+  real gm;
+  real gx;
+  real gxm;
+  real gy;
+  real gym;
+  real stx;
+  real sty;
+  real stmin;
+  real stmax;
+  real width;
+  real width1;
 
   const static real xtrapl = 1.1E0;
   const static real xtrapu = 4.0E0;
@@ -918,17 +918,17 @@ template <typename real>
 void lbfgsbdcstep(real& stx, real& fx, real& dx, real& sty, real& fy, real& dy,
                   real& stp, const real& fp, const real& dp, bool& brackt,
                   const real& stpmin, const real& stpmax) {
-  register real gamma;
-  register real p;
-  register real q;
-  register real r;
-  register real s;
-  register real sgnd;
-  register real stpc;
-  register real stpf;
-  register real stpq;
-  register real theta;
-  register real stpstx;
+  real gamma;
+  real p;
+  real q;
+  real r;
+  real s;
+  real sgnd;
+  real stpc;
+  real stpf;
+  real stpq;
+  real theta;
+  real stpstx;
 
   sgnd = dp * dx / fabs(dx);
   if (fp > fx) {

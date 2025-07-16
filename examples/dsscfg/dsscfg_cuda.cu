@@ -8,7 +8,7 @@
  */
 
 #include "examples/dsscfg/dsscfg_cuda.h"
-
+#include "examples/dsscfg/constant.h"
 #include <algorithm>
 #include <cmath>
 #include <cuda_runtime.h>
@@ -159,15 +159,14 @@ void dsscfg_cuda(int const& nx, int const& ny, real* x, real& f,
                  real const& lambda) {
   dim3 blocksize = {16U, 16U, 1U};
   dim3 gridsize = {(nx + 15U) / 16U, (ny + 15U) / 16U, 1U};
-
-  if (task == 'XS') {
+  if (task == CAL_XS) {
     dsscfg_kernel_init<real><<<gridsize, blocksize>>>(nx, ny, x, lambda);
     cudaMalloc(assist_buffer, nx * ny * 6 * sizeof(real));
     return;
   }
 
-  bool feval = task == 'F' || task == 'FG';
-  bool geval = task == 'G' || task == 'FG';
+  bool feval = task == CAL_F || task == CAL_FG;
+  bool geval = task == CAL_G || task == CAL_FG;
 
   real* fquad = nullptr;
   real* fexp = nullptr;

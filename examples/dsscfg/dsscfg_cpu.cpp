@@ -8,11 +8,10 @@
  */
 
 #include "examples/dsscfg/dsscfg_cpu.h"
-
+#include "examples/dsscfg/constant.h"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-
 template <typename real>
 void dsscfg_cpu(int const& nx, int const& ny, real* x, real& f,
                 real* fgrad, real** assist_buffer, int task,
@@ -20,10 +19,10 @@ void dsscfg_cpu(int const& nx, int const& ny, real* x, real& f,
   real hx = 1.0 / static_cast<real>(nx + 1);
   real hy = 1.0 / static_cast<real>(ny + 1);
   real area = 0.5 * hx * hy;
+    //
+  //     Compute the standard starting point if task = CAL_XS.
   //
-  //     Compute the standard starting point if task = 'XS'.
-  //
-  if (task == 'XS') {
+  if (task == CAL_XS) {
     real temp1 = lambda / (lambda + 1.0);
     for (int j = 0; j < ny; ++j) {
       for (int i = 0; i < nx; ++i) {
@@ -38,11 +37,11 @@ void dsscfg_cpu(int const& nx, int const& ny, real* x, real& f,
     return;
   }
   //
-  bool feval = task == 'F' || task == 'FG';
-  bool geval = task == 'G' || task == 'FG';
+  bool feval = task == CAL_F || task == CAL_FG;
+  bool geval = task == CAL_G || task == CAL_FG;
   //
-  //     Compute the function if task = 'F', the gradient if task = 'G', or
-  //     both if task = 'FG'.
+  //     Compute the function if task = CAL_F, the gradient if task = CAL_G, or
+  //     both if task = CAL_FG.
   //
   real fquad = 0.0;
   real fexp = 0.0;

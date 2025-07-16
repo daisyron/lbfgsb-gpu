@@ -17,7 +17,7 @@
 #include "culbfgsb/culbfgsb.h"
 #include "examples/dsscfg/dsscfg_cpu.h"
 #include "examples/dsscfg/dsscfg_cuda.h"
-
+#include "examples/dsscfg/constant.h"
 int g_nx = 256;
 int g_ny = 256;
 
@@ -47,7 +47,7 @@ real test_dsscfg_cpu() {
                                   real* x, real& f, real* g,
                                   const cudaStream_t& stream,
                                   const LBFGSB_CUDA_SUMMARY<real>& summary) {
-    dsscfg_cpu<real>(g_nx, g_ny, x, f, g, &assist_buffer_cpu, 'FG', g_lambda);
+    dsscfg_cpu<real>(g_nx, g_ny, x, f, g, &assist_buffer_cpu, CAL_FG, g_lambda);
     if (summary.num_iteration % 100 == 0) {
       std::cout << "CPU iteration " << summary.num_iteration << " F: " << f
                 << std::endl;    
@@ -72,7 +72,7 @@ real test_dsscfg_cpu() {
 
   // initialize starting point
   real f_init = std::numeric_limits<real>::max();
-  dsscfg_cpu<real>(g_nx, g_ny, x, f_init, nullptr, &assist_buffer_cpu, 'XS',
+  dsscfg_cpu<real>(g_nx, g_ny, x, f_init, nullptr, &assist_buffer_cpu, CAL_XS,
              g_lambda);
 
   // initialize number of bounds (0 for this example)
@@ -133,7 +133,7 @@ real test_dsscfg_cuda() {
                                   real* x, real& f, real* g,
                                   const cudaStream_t& stream,
                                   const LBFGSB_CUDA_SUMMARY<real>& summary) {
-    dsscfg_cuda<real>(g_nx, g_ny, x, f, g, &assist_buffer_cuda, 'FG', g_lambda);
+    dsscfg_cuda<real>(g_nx, g_ny, x, f, g, &assist_buffer_cuda, CAL_FG, g_lambda);
     if (summary.num_iteration % 100 == 0) {
       std::cout << "CUDA iteration " << summary.num_iteration << " F: " << f
                 << std::endl;
@@ -162,7 +162,7 @@ real test_dsscfg_cuda() {
 
   // initialize starting point
   real f_init = std::numeric_limits<real>::max();
-  dsscfg_cuda<real>(g_nx, g_ny, x, f_init, g, &assist_buffer_cuda, 'XS',
+  dsscfg_cuda<real>(g_nx, g_ny, x, f_init, g, &assist_buffer_cuda, CAL_XS,
                     g_lambda);
 
   // initialize number of bounds

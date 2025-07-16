@@ -21,4 +21,6 @@ cuda_add_library(cuLBFGSB STATIC
 endif()
 cuda_add_cublas_to_target (cuLBFGSB)
 
-install(FILES culbfgsb.h DESTINATION ${CMAKE_BINARY_DIR}/include/culbfgsb)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/culbfgsb.h DESTINATION ${CMAKE_BINARY_DIR}/include/culbfgsb)
+message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_CURRENT_SOURCE_DIR}")

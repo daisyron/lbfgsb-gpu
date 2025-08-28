@@ -34,38 +34,38 @@
 //         On exit ny is unchanged.
 //
 //       x is a real precision array of dimension nx*ny.
-//         On entry x specifies the vector x if task = 'F', 'G', or 'FG'.
+//         On entry x specifies the vector x if task = CAL_F, CAL_G, or CAL_FG.
 //            Otherwise x need not be specified.
-//         On exit x is unchanged if task = 'F', 'G', or 'FG'. Otherwise
+//         On exit x is unchanged if task = CAL_F, CAL_G, or CAL_FG. Otherwise
 //            x is set according to task.
 //
 //       f is a real precision variable.
 //         On entry f need not be specified.
-//         On exit f is set to the function evaluated at x if task = 'F'
-//            or 'FG'.
+//         On exit f is set to the function evaluated at x if task = CAL_F
+//            or CAL_FG.
 //
 //       assist_buffer is a real precision array for storing temporary
 //       variables.
-//         On entry assist_buffer specifies the pointer to buffer if task = 'F',
-//         'G', or 'FG'.
+//         On entry assist_buffer specifies the pointer to buffer if task = CAL_F,
+//         CAL_G, or CAL_FG.
 //            Otherwise x need not be specified.
 //         On exit assist_buffer contains the pointer to buffer if
-//            task = 'XS'.
+//            task = CAL_XS.
 //
 //       fgrad is a real precision array of dimension nx*ny.
 //         On entry fgrad need not be specified.
 //         On exit fgrad contains the gradient evaluated at x if
-//            task = 'G' or 'FG'.
+//            task = CAL_G or CAL_FG.
 //
 //       task is a character variable.
 //         On entry task specifies the action of the subroutine:
 //
 //            task               action
 //            ----               ------
-//            'F'      Evaluate the function at x.
-//            'G'      Evaluate the gradient at x.
-//            'FG'     Evaluate the function and the gradient at x.
-//            'XS'     Set x to the standard starting point xs.
+//            CAL_F      Evaluate the function at x.
+//            CAL_G      Evaluate the gradient at x.
+//            CAL_FG     Evaluate the function and the gradient at x.
+//            CAL_XS     Set x to the standard starting point xs.
 //
 //         On exit task is unchanged.
 //

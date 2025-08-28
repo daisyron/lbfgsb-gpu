@@ -250,11 +250,10 @@ __global__ void kernel2(int nsub, const int* ind, const int col, const int head,
     a[0][tidx] = wv[tidx] * inv_theta;
     a[1][tidx] = wv[col + tidx];
   }
-
+  __syncthreads();
   if (i < nsub && tidx < col) {
     const int pointr = Modular((head + tidx), m);
     const int k = ind[i];
-    __syncthreads();
     mySum = wy[k * iPitch + pointr] * a[0][tidx] +
             ws[k * iPitch + pointr] * a[1][tidx];
   } else
@@ -263,9 +262,7 @@ __global__ void kernel2(int nsub, const int* ind, const int col, const int head,
   if (bsize > 1) {
     volatile real* smem = sdata[tidy] + tidx;
     *smem = mySum;
-
     __syncthreads();
-
     if (bsize > 4) {
       *smem = mySum = mySum + smem[4];
     }

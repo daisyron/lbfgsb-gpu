@@ -49,22 +49,19 @@ __global__ void kernel1(int nfree, const int* index, const int col,
     a[1][tidx] = theta * wa[col + tidx];
   }
   int k = 0;
+  __syncthreads();
   if (i < nfree && tidx < col) {
     const int pointr = Modular((head + tidx), m);
     k = index[i];
-    __syncthreads();
 
     mySum = wy[k * iPitch + pointr] * a[0][tidx] +
             ws[k * iPitch + pointr] * a[1][tidx];
   } else
     mySum = 0;
-
+  __syncthreads();
   if (bsize > 1) {
     volatile real* smem = sdata[tidy] + tidx;
     *smem = mySum;
-
-    __syncthreads();
-
     if (bsize > 4) {
       *smem = mySum = mySum + smem[4];
     }

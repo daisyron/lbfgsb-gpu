@@ -13,9 +13,13 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 add_definitions (-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
 
+if(POLICY CMP0146)
+  cmake_policy(SET CMP0146 OLD)
+endif()
+
 find_package(CUDA REQUIRED)
 
-foreach(ComputeCapability 60 61 70 72 75 86)
+foreach(ComputeCapability 60 61 70 72 75 86 90)
   set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-gencode;arch=compute_${ComputeCapability},code=sm_${ComputeCapability})
 endforeach()
 

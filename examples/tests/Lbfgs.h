@@ -24,8 +24,8 @@ public:
    * @param x Input point (array of size dim)
    * @param grad Output gradient (array of size dim, can be nullptr if not needed)
    * 
-   * When using cuHandle method, both x and grad should point to device buffer
-   * and the method is expected to run on the device.
+   * When using handle method with option runOnDevice=true, both x and grad should point 
+   * to device buffer and the method is expected to run on the device.
    * 
    * @return Function value at x
    */
@@ -112,6 +112,7 @@ private:
   LBFGSB_CUDA_STATE<T>    m_state;
   LBFGSB_CUDA_SUMMARY<T>  m_summary;
 
+  bool                     m_deviceBuffersAllocated = false;
   T                       *m_d_xu = nullptr;
   T                       *m_d_xl = nullptr;
   int                     *m_d_nbd = nullptr;  

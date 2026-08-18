@@ -1,2 +1,2 @@
 add_subdirectory (dsscfg)
-add_subdirectory (Try)
+add_subdirectory (tests)

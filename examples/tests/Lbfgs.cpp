@@ -44,6 +44,7 @@ LBFGS<T>::LBFGS(int dim, int historySize) : m_dim(dim), m_historySize(historySiz
   m_state.m_cublas_handle = 0;
   memset(&m_lbfgsb_options, 0, sizeof(m_lbfgsb_options));
   memset(&m_summary, 0, sizeof(m_summary));
+  m_deviceBuffersAllocated = false;
 }
 
 template <typename T>
@@ -55,15 +56,21 @@ LBFGS<T>::~LBFGS()
 template <typename T>
 void LBFGS<T>::allocateDeviceBuffers()
 {
-  freeDeviceBuffers();
+  if (m_deviceBuffersAllocated) {
+    return;
+  }
   checkCudaErrors(cudaMalloc((void**)&m_d_xu,m_dim*sizeof(T)));
   checkCudaErrors(cudaMalloc((void**)&m_d_xl,m_dim*sizeof(T)));
   checkCudaErrors(cudaMalloc((void**)&m_d_nbd,m_dim*sizeof(int)));
+  m_deviceBuffersAllocated = true;
 }
 
 template <typename T>
 void LBFGS<T>::freeDeviceBuffers()
 {
+  if (not m_deviceBuffersAllocated) {
+    return;
+  }
   if (m_d_xu) {
     checkCudaErrors(cudaFree(m_d_xu));
     m_d_xu = nullptr;
@@ -76,6 +83,7 @@ void LBFGS<T>::freeDeviceBuffers()
     checkCudaErrors(cudaFree(m_d_nbd));
     m_d_nbd = nullptr;
   }
+  m_deviceBuffersAllocated = false;
 }
 
 template <typename T>

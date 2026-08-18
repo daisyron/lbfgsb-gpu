@@ -19,13 +19,6 @@ if(CUDA_INCLUDE_DIRS)
   target_include_directories(lbfgs_lib PRIVATE ${CUDA_INCLUDE_DIRS})
 endif()
 
-# Create the executable (CPU-only, no CUDA language needed)
-add_executable (try_cpu try_cpu.cpp)
-target_link_libraries (try_cpu cuLBFGSB lbfgs_lib)
-if(EIGEN3_FOUND)
-  target_include_directories(try_cpu PRIVATE ${EIGEN3_INCLUDE_DIRS})
-endif()
-
 # Create LbfgsTest executable from LbfgsTest.cpp
 add_executable(LbfgsTest LbfgsTest.cpp)
 target_link_libraries(LbfgsTest lbfgs_lib cuLBFGSB)

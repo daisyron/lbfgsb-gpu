@@ -711,8 +711,9 @@ void lbfgsbmatupd(const int& n, const int& m, real* ws, real* wy, real* sy,
                       iPitch, 1, buf_array_p, iPitch_normal, streamPool[1]);
 
   matupd::prog0<real>(n, m, ws, ss, d, d, itail, iupdat, col, head,
-                      stp * stp * dtd, iPitch, 1, iPitch, buf_array_p + n / 2,
-                      iPitch_normal, streamPool[2]);
+                      stp * stp * dtd, iPitch, 1, iPitch,
+                      buf_array_p + m * iPitch_normal, iPitch_normal,
+                      streamPool[2]);
 }
 
 template <typename real>
